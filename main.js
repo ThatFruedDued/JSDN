@@ -21,7 +21,9 @@ const JSDN = {
     return json;
   },
   stringify: function(obj){
-    obj = JSDN.structuredClone(obj);
+    if(typeof window !== "undefined"){
+      obj = JSDN.structuredClone(obj);
+    }
     let storage = {"": obj};
     let map = {};
     const dig = function(location){
@@ -41,8 +43,10 @@ const JSDN = {
     return returnVal;
   },
   structuredClone: function(obj){
-    const n = new Notification('', {data: obj, silent: true});
-    n.onshow = n.close.bind(n);
-    return n.data;
+    if(typeof window !== "undefined"){
+      const n = new Notification('', {data: obj, silent: true});
+      n.onshow = n.close.bind(n);
+      return n.data;
+    }
   }
 }
